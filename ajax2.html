@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax 2 - Local JSON</title>
+</head>
+
+<body>
+    <button id="getUser">Get User</button>
+    <button id="getUsers">Get Users</button>
+    <br><br>
+    <h1>User</h1>
+    <div id="user"></div>
+
+    <br><br>
+    <h1>Users</h1>
+    <div id="users"></div>
+
+
+    <script>
+        // document.getElementById('getUser').addEventListener('click', loaduser);
+        const getUser = document.getElementById('getUser');
+        const getUsers = document.getElementById('getUsers');
+        const user = document.getElementById('user');
+        const users = document.getElementById('users');
+
+        getUser.addEventListener('click', loaduser);
+        getUsers.addEventListener('click', loadusers);
+
+        function loaduser(){
+            let xhr = new XMLHttpRequest();
+            xhr.open ("GET", "user.json", true);
+
+            xhr.onload = function(){
+                if (xhr.status == 200){
+                    let userSingle = JSON.parse(this.responseText);
+
+                    let output = '';
+                    output += `<ul> 
+                        <li>ID: ${userSingle.id} </li> 
+                        <li>Name: ${userSingle.name} </li> 
+                        <li>Email: ${userSingle.email} </li> 
+                        </ul>
+                        `;
+                    user.innerHTML = output;
+                }
+            }
+
+            xhr.send();
+        }
+
+        function loadusers(){
+            let xhr = new XMLHttpRequest();
+            xhr.open ("GET", "users.json", true);
+
+            xhr.onload = function(){
+                if (xhr.status == 200){
+                    let userDetails = JSON.parse(this.responseText);
+
+                    let outputNew = '';
+                    for(let i in userDetails){
+                    outputNew += `<ul> 
+                        <li>ID: ${userDetails[i].id} </li> 
+                        <li>Name: ${userDetails[i].name} </li> 
+                        <li>Email: ${userDetails[i].email} </li> 
+                        </ul>
+                        `;
+
+                    }
+                    users.innerHTML = outputNew;
+                }
+            }
+
+            xhr.send();
+        }
+    </script>
+</body>
+
+</html>
